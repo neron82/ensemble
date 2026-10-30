@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <radialGradient id="bg">
+      <stop stop-color="#a174b6" />
+      <stop offset="1" stop-color="#17232d" />
+    </radialGradient>
+    <clipPath id="clip"><rect width="120" height="120" rx="28" /></clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="120" height="120" fill="url(#bg)" />
+    <circle
+      cx="60"
+      cy="46"
+      r="43"
+      fill="none"
+      stroke="#ffffff"
+      stroke-opacity=".12"
+    />
+    <path d="M12 125q0-38 35-41h26q35 3 35 41" fill="#a174b6" />
+    <path d="m46 82 14 16 14-16 7 38H39z" fill="#202730" />
+    <path d="M51 72h18v20q-9 12-18 0" fill="#ac7851" />
+    <ellipse cx="60" cy="49" rx="25" ry="34" fill="#ac7851" />
+    <path
+      d="M27 83V43q0-33 33-33t33 33v42L80 64V35L60 27 40 36v32z"
+      fill="#2b2525"
+    />
+    <path
+      d="m55 25 10 6-10 6 10 6-10 6"
+      fill="none"
+      stroke="#735035"
+      stroke-width="3"
+    />
+    <path
+      d="M43 51h10m14 0h10"
+      stroke="#343333"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+    <path d="m60 53-3 10h6" fill="none" stroke="#a78569" stroke-width="2" />
+    <path d="m43 64 17 10 17-10-6 20H50z" fill="#382925" />
+    <path d="m89 99 4 9-7-3z" fill="#f4daa3" />
+  </g>
+</svg>

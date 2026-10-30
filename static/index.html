@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1019" />
+    <title>Ensemble — a little world, a living conversation</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside
+        class="navigation"
+        id="navigation"
+        aria-label="Conversation navigation"
+      >
+        <a class="brand" href="#" id="home-link" aria-label="Ensemble home"
+          ><span class="brand-mark" aria-hidden="true">e<span>·</span></span
+          ><span>ensemble<small>ROOM FOR IMAGINATION</small></span></a
+        >
+        <button class="button new-room" id="new-room">
+          <span aria-hidden="true">＋</span> New room
+        </button>
+        <div class="navigation-scroll">
+          <div class="section-label">
+            YOUR ROOMS <span id="room-count">0</span>
+          </div>
+          <nav id="group-rooms" aria-label="Group rooms"></nav>
+          <div class="section-label direct-label">DIRECT CONVERSATIONS</div>
+          <nav id="direct-rooms" aria-label="Direct conversations"></nav>
+        </div>
+        <button class="nav-utility" id="characters-button">
+          <span aria-hidden="true">◈</span> Character library
+          <span aria-hidden="true">↗</span>
+        </button>
+        <div class="service-card">
+          <div class="service-heading">
+            <span>LOCAL CONNECTIONS</span
+            ><button
+              class="icon-button"
+              id="service-settings"
+              aria-label="Connection settings"
+            >
+              ⚙
+            </button>
+          </div>
+          <button class="service-line" id="llm-status">
+            <span class="status-dot"></span><span>Language model</span
+            ><small>Checking</small></button
+          ><button class="service-line" id="voice-status">
+            <span class="status-dot"></span><span>Voice studio</span
+            ><small>Checking</small>
+          </button>
+          <div class="local-note">Your cast. Your machine. Your world.</div>
+        </div>
+      </aside>
+      <main class="conversation">
+        <header class="room-header">
+          <button
+            class="icon-button mobile-only"
+            id="open-navigation"
+            aria-label="Open navigation"
+          >
+            ☰
+          </button>
+          <div class="room-heading">
+            <div class="eyebrow" id="room-kind">THE CONVERSATION SPACE</div>
+            <h1 id="room-title">Make room for a story.</h1>
+          </div>
+          <div class="header-actions">
+            <span class="room-state" id="room-state">Ready when you are</span
+            ><button class="icon-button" id="edit-room" aria-label="Edit room">
+              •••</button
+            ><button
+              class="icon-button cast-toggle"
+              id="open-cast"
+              aria-label="Open cast and scene"
+            >
+              ◈
+            </button>
+          </div>
+        </header>
+        <div class="conversation-scroll" id="conversation-scroll">
+          <div
+            id="messages"
+            aria-label="Conversation messages"
+            role="log"
+            aria-live="polite"
+            aria-relevant="additions"
+          ></div>
+          <div id="empty-state"></div>
+        </div>
+        <div class="run-panel" id="run-panel" hidden>
+          <div class="run-heading">
+            <span id="run-label"></span><span id="run-count"></span>
+          </div>
+          <progress
+            id="run-progress"
+            max="3"
+            value="0"
+            aria-label="Total replies completed"
+          ></progress>
+          <p id="run-error" class="inline-error" hidden></p>
+        </div>
+        <div class="composer-region">
+          <div class="playback-bar" id="playback-bar" hidden>
+            <span class="status-dot connected"></span
+            ><span id="playback-label"></span
+            ><button class="text-button" id="pause-audio">Pause</button
+            ><button
+              class="icon-button"
+              id="close-audio"
+              aria-label="Close playback"
+            >
+              ×
+            </button>
+          </div>
+          <div
+            id="page-error"
+            class="inline-error page-error"
+            role="alert"
+            hidden
+          ></div>
+          <form id="composer">
+            <label class="sr-only" for="message-input">Your message</label
+            ><textarea
+              id="message-input"
+              rows="2"
+              placeholder="Set the scene, ask a question, stir things up…"
+              maxlength="30000"
+            ></textarea>
+            <div class="composer-controls">
+              <div class="composer-options">
+                <label class="target-control"
+                  ><span>TO</span
+                  ><select id="target-select" aria-label="Who should reply">
+                    <option value="">The whole cast</option>
+                  </select></label
+                ><label
+                  class="budget-control"
+                  title="Maximum assistant messages in this run, total across all characters"
+                  ><span>Total reply cap</span
+                  ><input
+                    id="turn-limit"
+                    type="number"
+                    min="1"
+                    max="24"
+                    value="3"
+                    required
+                    aria-label="Total assistant reply cap"
+                /></label>
+              </div>
+              <button class="button send-button" id="send-button" type="submit">
+                Send <span aria-hidden="true">↑</span>
+              </button>
+            </div>
+          </form>
+          <div class="composer-footer">
+            <span class="keyboard-hint"
+              >Enter to send <span>·</span> Shift + Enter for a new line</span
+            >
+            <div class="footer-actions">
+              <label class="autoplay-option"
+                ><input id="auto-play" type="checkbox" /> Auto-play
+                voices</label
+              ><button
+                class="text-button"
+                id="continue-button"
+                title="Continue the scene without sending a new message"
+              >
+                Continue <span aria-hidden="true">→</span></button
+              ><button class="stop-button" id="stop-button" hidden>
+                ■ Stop
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+      <aside
+        class="cast-panel"
+        id="cast-panel"
+        aria-label="Room cast and scene"
+      >
+        <div class="panel-heading">
+          <span>BEHIND THE SCENES</span
+          ><button
+            class="icon-button cast-close"
+            id="close-cast"
+            aria-label="Close cast panel"
+          >
+            ×
+          </button>
+        </div>
+        <div class="scene-art" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="planet"></div>
+          <div class="art-caption">A WORLD BETWEEN WORDS</div>
+        </div>
+        <div class="scene-heading">
+          <h2>The scene</h2>
+          <button class="text-button" id="edit-scene">Edit</button>
+        </div>
+        <p class="scene-description" id="scene-description">
+          Every great conversation begins with a little possibility.
+        </p>
+        <div class="cast-heading">
+          <h2>The cast <span id="cast-count">0</span></h2>
+          <button class="text-button" id="manage-cast">Manage</button>
+        </div>
+        <div id="cast-list"></div>
+        <div class="room-note">
+          <span class="note-symbol" aria-hidden="true">↻</span>
+          <p>
+            One voice at a time.<br /><span
+              >The cast takes turns in order. You set the total reply cap, and
+              can stop at any moment.</span
+            >
+          </p>
+        </div>
+        <button class="text-button room-delete" id="delete-room">
+          Delete this conversation
+        </button>
+      </aside>
+    </div>
+    <button
+      id="drawer-scrim"
+      class="drawer-scrim"
+      aria-label="Close side panel"
+      hidden
+    ></button>
+    <dialog id="editor-dialog" aria-labelledby="dialog-title">
+      <div class="dialog-header">
+        <div>
+          <div class="eyebrow" id="dialog-eyebrow">ENSEMBLE STUDIO</div>
+          <h2 id="dialog-title"></h2>
+        </div>
+        <button class="icon-button" id="close-dialog" aria-label="Close dialog">
+          ×
+        </button>
+      </div>
+      <div id="dialog-body"></div>
+    </dialog>
+    <div class="toast" id="toast" role="status" hidden></div>
+  </body>
+</html>
